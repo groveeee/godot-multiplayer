@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://d035v3tmy7p5s"]
+
+[ext_resource type="Texture2D" uid="uid://dxvpgvgjl3o41" path="res://assest/pix/bullets/BulletOne.png" id="1_2tapy"]
+[ext_resource type="Script" path="res://scripts/bullets/bullet_one.gd" id="1_72t3w"]
+
+[node name="BulletOne" type="Sprite2D"]
+texture = ExtResource("1_2tapy")
+script = ExtResource("1_72t3w")
+
+[node name="LifeTimer" type="Timer" parent="."]
+wait_time = 7.0
+one_shot = true
+autostart = true
