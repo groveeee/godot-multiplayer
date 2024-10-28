@@ -1,11 +1,15 @@
 extends Node2D
+
+
+
 # ENet是一个网络库 只使用UDP
 # ENetMultiplayerPeer是MultiplayerPeer 的一种实现
 var peer = ENetMultiplayerPeer.new()
 const PLAYER = preload("res://tscns/player.tscn")
 @onready var players: Node = $Players
 
-
+func _ready() -> void:
+	pass	
 # 创建游戏服务器
 func _on_create_game_server_button_button_down() -> void:
 	# 创建服务器
@@ -49,4 +53,3 @@ func _on_peer_connected(id: int) -> void:
 func _on_join_game_server_button_button_down() -> void:
 	peer.create_client("127.0.0.1", 7788)
 	multiplayer.multiplayer_peer = peer
-

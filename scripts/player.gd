@@ -8,6 +8,7 @@ const TILE_0160 = preload("res://assest/kenney_tiny-battle/Tiles/tile_0160.png")
 const BULLET_ONE = preload("res://tscns/bullets/bullet_one.tscn")
 # 移动速度
 const MOVE_SPEED = 100
+@onready var camera_2d: Camera2D = $Camera2D
 
 # 最先调用 实例化的时候
 func _init() -> void:
@@ -18,10 +19,19 @@ func _enter_tree() -> void:
 	print("_enter_tree:设置该节点权限"+name)
 	# 设置该节点的多人权限
 	set_multiplayer_authority(name.to_int())
+	
+	
 
 # 在节点及其所有子节点都已添加到场景树后调用
 func _ready() -> void:
 	print("_ready")
+	
+	# 不是自己控制的角色不要相机
+	print(camera_2d)
+	var id = multiplayer.get_unique_id()
+	if str(id) != name:
+		camera_2d.free()
+		
 	# 服务器是红色小人
 	if name == "1":
 		texture = TILE_0160
