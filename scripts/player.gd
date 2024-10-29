@@ -9,9 +9,15 @@ const BULLET_ONE = preload("res://tscns/bullets/bullet_one.tscn")
 # 移动速度
 const MOVE_SPEED = 100
 # 玩家相机
-@onready var camera_2d: Camera2D = $Camera2D
+@onready var camera: Camera2D = $Camera2D
 # 需要移动到的目标位置(一般是指鼠标位置)
 var target_pos: Vector2 = Vector2.ZERO
+
+# 定义一个变量来存储摄像机是否处于锁定状态
+var is_camera_locked = false
+# 鼠标在窗口内的边界阈值
+var mouse_border_threshold = 2
+
 
 # 最先调用 实例化的时候
 func _init() -> void:
@@ -27,13 +33,13 @@ func _enter_tree() -> void:
 # 在节点及其所有子节点都已添加到场景树后调用
 func _ready() -> void:
 	print("_ready")
-	# 设置鼠标模式 将鼠标光标限制在游戏窗口内，并使其可见
+	# 设置鼠标模式 默认将鼠标光标限制在游戏窗口内，并使其可见
 	Input.set_mouse_mode(Input.MouseMode.MOUSE_MODE_CONFINED)
 	
 	# 不是自己控制的角色不要相机
 	var id = multiplayer.get_unique_id()
 	if str(id) != name:
-		camera_2d.free()
+		camera.free()
 		
 	# 服务器是红色小人
 	if name == "1":
@@ -49,12 +55,47 @@ func _ready() -> void:
 
 # 处理输入事件
 func _input(event: InputEvent) -> void:
+	# 按下ESC可以将鼠标移动到屏幕外面
 	if event.is_action_pressed("ESC"):
 		Input.set_mouse_mode(Input.MouseMode.MOUSE_MODE_VISIBLE)
+	
+	# 按下鼠标左键 将鼠标固定在游戏窗口内
 	if event.is_action_pressed("mouse_left") and Input.get_mouse_mode() == Input.MouseMode.MOUSE_MODE_VISIBLE:
 		Input.set_mouse_mode(Input.MouseMode.MOUSE_MODE_CONFINED)
-		
-		
+	
+	# 锁定/解锁视角
+	if event.is_action_pressed("lock_camera"):
+		is_camera_locked = not is_camera_locked
+		print("Camera lock state changed to:", is_camera_locked)
+	
+	# 处理鼠标移动事件
+	# TODO 1.将该事件移动到_process中去处理 因为在这里鼠标要一直移动才会滑动视角 但实际上应该只要鼠标在边界上就会滑动视角
+	# TODO 2.实现按下空格后 将视角锁定在当前角色身上 也是在_process中实现 因为在_process中可以实现一直按下空格键一直锁定
+	if event is InputEventMouseMotion:
+		if not is_camera_locked:
+			print("鼠标移动")
+			var mouse_pos = event.position
+			print("鼠标移动的位置:",mouse_pos)
+			var screen_size = get_viewport_rect().size
+			print("窗口边界:",screen_size)
+			# 计算鼠标与窗口边界的距离
+			var left_distance = mouse_pos.x
+			var right_distance = screen_size.x - mouse_pos.x
+			var top_distance = mouse_pos.y
+			var bottom_distance = screen_size.y - mouse_pos.y
+			# 根据鼠标与窗口边界的距离来调整摄像机偏移量
+			if right_distance<mouse_border_threshold:
+				print("已经快要到达右边的边界了")
+				camera.offset.x+=5
+			if left_distance<mouse_border_threshold:
+				print("已经快要到达左边的边界了")
+				camera.offset.x-=5
+			if top_distance<mouse_border_threshold:
+				print("已经快要到达上边的边界了")
+				camera.offset.y-=5
+			if bottom_distance<mouse_border_threshold:
+				print("已经快要到达下边的边界了")
+				camera.offset.y+=5
 func _process(delta: float) -> void:
 	# 如果不是该节点的控制者 不做任何处理
 	# 根据设置的节点的权限id 与 本身的唯一id作对比
@@ -75,7 +116,7 @@ func _process(delta: float) -> void:
 	# 到达目的地(两个向量之间的距离小于1就算他到达了 过于追求精准会导致玩家抖动)
 	if position.distance_to(target_pos)<1:
 		target_pos = Vector2.ZERO
-
+		
 
 # 攻击的方法
 func attack():
