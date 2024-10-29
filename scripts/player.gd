@@ -55,6 +55,8 @@ func _ready() -> void:
 
 # 处理输入事件
 func _input(event: InputEvent) -> void:
+	if not is_multiplayer_authority():
+		return
 	# 按下ESC可以将鼠标移动到屏幕外面
 	if event.is_action_pressed("ESC"):
 		Input.set_mouse_mode(Input.MouseMode.MOUSE_MODE_VISIBLE)
