@@ -27,9 +27,10 @@ func _enter_tree() -> void:
 # 在节点及其所有子节点都已添加到场景树后调用
 func _ready() -> void:
 	print("_ready")
+	# 设置鼠标模式 将鼠标光标限制在游戏窗口内，并使其可见
+	Input.set_mouse_mode(Input.MouseMode.MOUSE_MODE_CONFINED)
 	
 	# 不是自己控制的角色不要相机
-	print(camera_2d)
 	var id = multiplayer.get_unique_id()
 	if str(id) != name:
 		camera_2d.free()
@@ -46,6 +47,13 @@ func _ready() -> void:
 	print(position)
 	# position = Vector2(300, 300)
 
+# 处理输入事件
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ESC"):
+		Input.set_mouse_mode(Input.MouseMode.MOUSE_MODE_VISIBLE)
+	if event.is_action_pressed("mouse_left") and Input.get_mouse_mode() == Input.MouseMode.MOUSE_MODE_VISIBLE:
+		Input.set_mouse_mode(Input.MouseMode.MOUSE_MODE_CONFINED)
+		
 		
 func _process(delta: float) -> void:
 	# 如果不是该节点的控制者 不做任何处理
@@ -59,6 +67,8 @@ func _process(delta: float) -> void:
 	# 不使用Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT) 因为鼠标按下不松手会一直返回true 一直触发
 	if Input.is_action_just_pressed("mouse_right"):
 		target_pos = get_global_mouse_position()
+		if Input.get_mouse_mode() == Input.MouseMode.MOUSE_MODE_VISIBLE:
+			Input.set_mouse_mode(Input.MouseMode.MOUSE_MODE_CONFINED)
 	# 如果有目标位置就移动到目标位置
 	if target_pos != Vector2.ZERO:
 		move_towards_target(delta)
