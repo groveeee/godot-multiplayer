@@ -121,13 +121,13 @@ func async_attack(direction:Vector2):
 
 # 获取鼠标所在位置的方向
 func get_direction() -> Vector2:
-	var mouse_pos = get_local_mouse_position()
+	var mouse_pos = get_global_mouse_position()
 	var direction = (mouse_pos - global_position).normalized()
 	return direction
 
 # 移动到目标位置
 func move_towards_target(delta: float):
-	var direction = (target_pos - global_position).normalized()
+	var direction = (target_pos - position).normalized()
 	position += direction * MOVE_SPEED * delta
 	
 # 移动相机
