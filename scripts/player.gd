@@ -95,8 +95,8 @@ func _process(delta: float) -> void:
 	# 到达目的地(两个向量之间的距离小于1就算他到达了 过于追求精准会导致玩家抖动)
 	if position.distance_to(target_pos)<1:
 		target_pos = Vector2.ZERO
-	# 未锁定视角时 判断相机移动
-	if not is_camera_locked :
+	# 未锁定视角时 且鼠标在游戏窗口内 判断相机移动
+	if not is_camera_locked and Input.get_mouse_mode() == Input.MouseMode.MOUSE_MODE_CONFINED:
 		change_camera()
 	# 按下空格 回到玩家视角
 	if Input.is_action_pressed("sapce"):
@@ -133,9 +133,9 @@ func move_towards_target(delta: float):
 # 移动相机
 func change_camera():
 	var mouse_pos = get_viewport().get_mouse_position()
-	print("鼠标移动的位置:",mouse_pos)
+	#print("鼠标移动的位置:",mouse_pos)
 	var screen_size = get_viewport_rect().size
-	print("窗口边界:",screen_size)
+	#print("窗口边界:",screen_size)
 	# 计算鼠标与窗口边界的距离
 	var left_distance = mouse_pos.x
 	var right_distance = screen_size.x - mouse_pos.x
@@ -143,14 +143,10 @@ func change_camera():
 	var bottom_distance = screen_size.y - mouse_pos.y
 	# 根据鼠标与窗口边界的距离来调整摄像机偏移量
 	if right_distance<mouse_border_threshold:
-		print("已经快要到达右边的边界了")
 		camera.offset.x+=5
 	if left_distance<mouse_border_threshold:
-		print("已经快要到达左边的边界了")
 		camera.offset.x-=5
 	if top_distance<mouse_border_threshold:
-		print("已经快要到达上边的边界了")
 		camera.offset.y-=5
 	if bottom_distance<mouse_border_threshold:
-		print("已经快要到达下边的边界了")
 		camera.offset.y+=5
