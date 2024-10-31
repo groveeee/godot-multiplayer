@@ -116,6 +116,12 @@ func async_attack(direction:Vector2):
 	var bullet_one = BULLET_ONE.instantiate()
 	bullet_one.direction = direction
 	bullet_one.position = position
+	# 下面的代码获取了默认朝向(1,0) 是朝向右边的 但是我的子弹图像是朝着上方的 所以差了90°
+	print(cos(bullet_one.rotation),sin(bullet_one.rotation))
+	#bullet_one.rotate(direction.angle()+deg_to_rad(90)) #加上90°就刚刚好
+	# 这里使用一个向上的向量来计算弧度也可以
+	var angle =Vector2(0,-1).angle_to(direction)
+	bullet_one.rotate(angle)
 	get_parent().add_child(bullet_one)
 	
 
