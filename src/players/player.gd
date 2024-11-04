@@ -5,7 +5,7 @@ const TILE_0142 = preload("res://assest/kenney_tiny-battle/Tiles/tile_0142.png")
 # 红色小人
 const TILE_0160 = preload("res://assest/kenney_tiny-battle/Tiles/tile_0160.png")
 # 一级子弹
-const BULLET_ONE: PackedScene = preload("res://tscns/bullets/bullet_one.tscn")
+const BULLET_ONE: PackedScene = preload("res://src/bullets/bullet_one.tscn")
 # 移动速度
 const MOVE_SPEED: int = 100
 # 玩家相机

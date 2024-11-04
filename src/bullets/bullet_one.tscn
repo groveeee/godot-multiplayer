@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://d035v3tmy7p5s"]
+
+[ext_resource type="Texture2D" uid="uid://dxvpgvgjl3o41" path="res://assest/pix/bullets/BulletOne.png" id="1_anjwj"]
+[ext_resource type="Script" path="res://src/bullets/bullet_one.gd" id="2_vf2rl"]
+[ext_resource type="AudioStream" uid="uid://dqdvio8o1v1y" path="res://assest/music/attack/Bubble 1.wav" id="3_66cvj"]
+
+[node name="BulletOne" type="Sprite2D"]
+texture = ExtResource("1_anjwj")
+script = ExtResource("2_vf2rl")
+
+[node name="LifeTimer" type="Timer" parent="."]
+wait_time = 7.0
+one_shot = true
+autostart = true
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_66cvj")
+autoplay = true

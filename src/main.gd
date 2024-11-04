@@ -3,7 +3,7 @@ extends Node2D
 # ENet是一个网络库 只使用UDP
 # ENetMultiplayerPeer是MultiplayerPeer 的一种实现
 var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
-const PLAYER: PackedScene     = preload("res://tscns/player.tscn")
+const PLAYER: PackedScene     = preload("res://src/players/player.tscn")
 @onready var players: Node = $Players
 
 

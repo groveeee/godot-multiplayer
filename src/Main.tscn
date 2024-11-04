@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bh7cl8isdkyg"]
 
-[ext_resource type="Script" path="res://scripts/main.gd" id="1_k3g8u"]
-[ext_resource type="PackedScene" uid="uid://tqimqw827wye" path="res://tscns/tile_map_layer.tscn" id="1_psatg"]
+[ext_resource type="Script" path="res://src/main.gd" id="1_k3g8u"]
+[ext_resource type="PackedScene" uid="uid://tqimqw827wye" path="res://src/maps/tile_map_layer.tscn" id="1_psatg"]
 [ext_resource type="AudioStream" uid="uid://5xswc0lb1jfm" path="res://assest/music/bgm/Ludum Dare 28 01.ogg" id="3_qchgm"]
 
 [node name="Main" type="Node2D"]
@@ -34,7 +34,6 @@ offset_bottom = 34.0
 text = "加入游戏"
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
-_spawnable_scenes = PackedStringArray("res://tscns/player.tscn")
 spawn_path = NodePath("../Players")
 
 [node name="Enemys" type="Node" parent="."]
