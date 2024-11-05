@@ -36,6 +36,7 @@ offset_bottom = 34.0
 text = "加入游戏"
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("res://src/players/player.tscn")
 spawn_path = NodePath("../Players")
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
