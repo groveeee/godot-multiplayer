@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://kmu6mq8koe3u"]
+[gd_scene load_steps=12 format=3 uid="uid://kmu6mq8koe3u"]
 
 [ext_resource type="Script" path="res://src/enemys/orc.gd" id="1_8ilto"]
 [ext_resource type="Texture2D" uid="uid://civbwxmvvuyih" path="res://assest/Orc/Orc-Idle.png" id="1_esl1a"]
@@ -54,6 +54,14 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_k0seh"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+properties/1/path = NodePath("AnimatedSprite2D:animation")
+properties/1/spawn = true
+properties/1/replication_mode = 1
+
 [node name="Orc" type="CharacterBody2D" groups=["enemys"]]
 script = ExtResource("1_8ilto")
 
@@ -71,5 +79,8 @@ shape = ExtResource("3_xfrf7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = ExtResource("3_xfrf7")
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_k0seh")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

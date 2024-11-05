@@ -32,6 +32,11 @@ func _on_create_game_server_button_button_down() -> void:
 	multiplayer.multiplayer_peer = peer
 	# 添加服务端的玩家
 	add_player(multiplayer.get_unique_id())
+	# 添加敌人
+	for i in 20:
+		var orc =  ORC.instantiate()
+		orc.name=str(i)+"orc"
+		enemys.add_child(orc)
 	# 作为服务端 监听玩家加入事件
 	multiplayer.peer_connected.connect(_on_peer_connected)
 
@@ -46,8 +51,6 @@ func add_player(id: int) -> void:
 	print("添加玩家到场景树")
 	players.add_child(player)
 	print("添加玩家到场景树完成")
-	var orc = ORC.instantiate()
-	enemys.add_child(orc)
 
 
 func _on_peer_connected(id: int) -> void:
