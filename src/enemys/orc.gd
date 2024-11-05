@@ -4,6 +4,9 @@ extends CharacterBody2D
 const SPEED = 300.0
 const JUMP_VELOCITY = -400.0
 
+# 生命值
+var health:int = 100
+
 
 func _ready() -> void:
 	print("_ready")
@@ -32,7 +35,11 @@ func _ready() -> void:
 
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	print(area.get_groups())
-	var bullet:Sprite2D = area.get_parent().get_parent()
-	print(bullet.SPEED)
-	print("有节点进入兽人的身体")
+	#print(area.get_groups())
+	if area.is_in_group("bullet"):
+		var bullet:Sprite2D = area.get_parent().get_parent()
+		health-=bullet.BasicDamage
+		print("当前血量:",health)
+		if health<=0:
+			queue_free()
+		print("有节点进入兽人的身体")

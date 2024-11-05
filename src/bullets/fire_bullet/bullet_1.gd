@@ -4,6 +4,8 @@ extends Sprite2D
 # 子弹移动速度
 const SPEED: int       = 200
 var direction: Vector2 = Vector2.ZERO
+# 基础伤害
+const BasicDamage:int = 10
 
 
 func _process(delta: float) -> void:

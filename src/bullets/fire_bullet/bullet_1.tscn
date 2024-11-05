@@ -51,7 +51,7 @@ script = ExtResource("1_2it4e")
 sprite_frames = SubResource("SpriteFrames_b8u0q")
 animation = &"emit"
 autoplay = "emit"
-frame_progress = 0.153545
+frame_progress = 0.314932
 
 [node name="Area2D" type="Area2D" parent="AnimatedSprite2D" groups=["bullet"]]
 
