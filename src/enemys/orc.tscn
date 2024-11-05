@@ -1,0 +1,75 @@
+[gd_scene load_steps=11 format=3 uid="uid://kmu6mq8koe3u"]
+
+[ext_resource type="Script" path="res://src/enemys/orc.gd" id="1_8ilto"]
+[ext_resource type="Texture2D" uid="uid://civbwxmvvuyih" path="res://assest/Orc/Orc-Idle.png" id="1_esl1a"]
+[ext_resource type="Shape2D" uid="uid://b8fdypljo6sel" path="res://src/enemys/orc_collision_shape.tres" id="3_xfrf7"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7ww8"]
+atlas = ExtResource("1_esl1a")
+region = Rect2(0, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4wqfx"]
+atlas = ExtResource("1_esl1a")
+region = Rect2(100, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_halfn"]
+atlas = ExtResource("1_esl1a")
+region = Rect2(200, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvy15"]
+atlas = ExtResource("1_esl1a")
+region = Rect2(300, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vwxq2"]
+atlas = ExtResource("1_esl1a")
+region = Rect2(400, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pfnua"]
+atlas = ExtResource("1_esl1a")
+region = Rect2(500, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wosm2"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7ww8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4wqfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_halfn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvy15")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vwxq2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pfnua")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[node name="Orc" type="CharacterBody2D" groups=["enemys"]]
+script = ExtResource("1_8ilto")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_wosm2")
+animation = &"idle"
+autoplay = "idle"
+frame_progress = 0.672932
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.5, -1)
+shape = ExtResource("3_xfrf7")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = ExtResource("3_xfrf7")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

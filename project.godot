@@ -23,6 +23,11 @@ window/stretch/mode="canvas_items"
 
 project/assembly_name="多人游戏demo"
 
+[global_group]
+
+enemys="敌人分组"
+bullet="子弹分组"
+
 [input]
 
 right={

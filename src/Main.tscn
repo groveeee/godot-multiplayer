@@ -11,6 +11,8 @@ script = ExtResource("1_k3g8u")
 
 [node name="Players" type="Node" parent="."]
 
+[node name="Enemys" type="Node" parent="."]
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="Control" type="Control" parent="UI"]
@@ -35,8 +37,6 @@ text = "加入游戏"
 
 [node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
 spawn_path = NodePath("../Players")
-
-[node name="Enemys" type="Node" parent="."]
 
 [node name="BGM" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_qchgm")

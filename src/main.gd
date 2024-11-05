@@ -4,7 +4,9 @@ extends Node2D
 # ENetMultiplayerPeer是MultiplayerPeer 的一种实现
 var peer: ENetMultiplayerPeer = ENetMultiplayerPeer.new()
 const PLAYER: PackedScene     = preload("res://src/players/player.tscn")
+const ORC = preload("res://src/enemys/orc.tscn")
 @onready var players: Node = $Players
+@onready var enemys: Node = $Enemys
 
 
 func _ready() -> void:
@@ -44,6 +46,8 @@ func add_player(id: int) -> void:
 	print("添加玩家到场景树")
 	players.add_child(player)
 	print("添加玩家到场景树完成")
+	var orc = ORC.instantiate()
+	enemys.add_child(orc)
 
 
 func _on_peer_connected(id: int) -> void:
