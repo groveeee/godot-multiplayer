@@ -7,6 +7,8 @@ const PLAYER: PackedScene     = preload("res://src/players/player.tscn")
 const ORC = preload("res://src/enemys/orc.tscn")
 @onready var players: Node = $Players
 @onready var enemys: Node = $Enemys
+@onready var create_game_server_button: Button = $UI/Control/CreateGameServerButton
+@onready var join_game_server_button: Button = $UI/Control/JoinGameServerButton
 
 
 func _ready() -> void:
@@ -16,12 +18,14 @@ func _ready() -> void:
 # 创建游戏服务器
 func _on_create_game_server_button_button_down() -> void:
 	# 创建服务器
-	var error = peer.create_server(7788)
+	var error: int = peer.create_server(7788)
 	if error != OK:
 		print("创建服务器失败")
 		return
 	else:
 		print("创建服务器成功")
+	create_game_server_button.focus_mode=Control.FOCUS_NONE
+	join_game_server_button.focus_mode=Control.FOCUS_NONE
 	# 绑定服务器
 	# 每个节点都会有一个multiplayer属性 它是对场景树为其配置的MultiplayerAPI实例的引用 multiplayer_peer就是MultiplayerAPI的一个属性 也就是说MultiplayerAPI管理着multiplayer_peer
 
@@ -45,7 +49,7 @@ func add_player(id: int) -> void:
 	print("开始添加玩家"+str(id))
 	# 实例化一个玩家场景
 	print("开始实例化场景")
-	var player = PLAYER.instantiate()
+	var player: Node = PLAYER.instantiate()
 	print("场景实例化完成")
 	player.name = str(id)
 	print("添加玩家到场景树")
@@ -61,5 +65,10 @@ func _on_peer_connected(id: int) -> void:
 
 # 加入游戏服务器
 func _on_join_game_server_button_button_down() -> void:
-	peer.create_client("127.0.0.1", 7788)
+	var error:int = peer.create_client("127.0.0.1", 7788)
+	if error!=OK:
+		print("加入服务器失败")
+		return
 	multiplayer.multiplayer_peer = peer
+	create_game_server_button.focus_mode=Control.FOCUS_NONE
+	join_game_server_button.focus_mode=Control.FOCUS_NONE
