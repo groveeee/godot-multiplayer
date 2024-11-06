@@ -81,6 +81,10 @@ sapce={
 ]
 }
 
+[internationalization]
+
+locale/translations=PackedStringArray("res://language/language.en.translation", "res://language/language.ja.translation", "res://language/language.zh.translation")
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0

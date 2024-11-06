@@ -1,0 +1,7 @@
+keys,zh,en,ja
+GREET,朋友你好,"Hello, friend!",こんにちは
+ASK,你还好吗?,How are you?,元気ですか
+BYE,再见,Goodbye,さようなら
+CREATE GAME,创建游戏,Create Game,ゲームを作成する
+JOIN GAME,加入游戏,Join Game,ゲームに参加する
+LEAVE GAME,离开游戏,Leave Game,ゲームから退出する

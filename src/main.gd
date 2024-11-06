@@ -13,6 +13,8 @@ const ORC = preload("res://src/enemys/orc.tscn")
 
 func _ready() -> void:
 	pass
+	# 设置游戏语言为英文
+#	TranslationServer.set_locale("ja")
 
 
 # 创建游戏服务器
