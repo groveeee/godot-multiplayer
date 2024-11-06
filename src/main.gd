@@ -9,6 +9,8 @@ const ORC = preload("res://src/enemys/orc.tscn")
 @onready var enemys: Node = $Enemys
 @onready var create_game_server_button: Button = $UI/Control/CreateGameServerButton
 @onready var join_game_server_button: Button = $UI/Control/JoinGameServerButton
+@onready var network_latency_label: Label = $UI/Control/NetworkLatencyLabel
+@onready var fps_label: Label = $UI/Control/FPSLabel
 
 
 func _ready() -> void:
@@ -16,6 +18,9 @@ func _ready() -> void:
 	# 设置游戏语言为英文
 #	TranslationServer.set_locale("ja")
 
+func _process(delta: float) -> void:
+	# 显示FPS
+	fps_label.text="FPS %s" % Engine.get_frames_per_second()
 
 # 创建游戏服务器
 func _on_create_game_server_button_button_down() -> void:
@@ -26,6 +31,9 @@ func _on_create_game_server_button_button_down() -> void:
 		return
 	else:
 		print("创建服务器成功")
+	# 删除延迟标签(服务器不需要延迟检测)
+	network_latency_label.queue_free()
+	# 取消按钮的焦点
 	create_game_server_button.focus_mode=Control.FOCUS_NONE
 	join_game_server_button.focus_mode=Control.FOCUS_NONE
 	# 绑定服务器
@@ -45,7 +53,6 @@ func _on_create_game_server_button_button_down() -> void:
 		enemys.add_child(orc)
 	# 作为服务端 监听玩家加入事件
 	multiplayer.peer_connected.connect(_on_peer_connected)
-
 
 func add_player(id: int) -> void:
 	print("开始添加玩家"+str(id))
@@ -72,5 +79,6 @@ func _on_join_game_server_button_button_down() -> void:
 		print("加入服务器失败")
 		return
 	multiplayer.multiplayer_peer = peer
+	# 取消按钮的焦点
 	create_game_server_button.focus_mode=Control.FOCUS_NONE
 	join_game_server_button.focus_mode=Control.FOCUS_NONE
