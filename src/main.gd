@@ -11,7 +11,9 @@ const ORC = preload("res://src/enemys/orc.tscn")
 @onready var join_game_server_button: Button = $UI/Control/JoinGameServerButton
 @onready var network_latency_label: Label = $UI/Control/NetworkLatencyLabel
 @onready var fps_label: Label = $UI/Control/FPSLabel
-
+@onready var network_latency_timer: Timer = $NetworkLatencyTimer
+# ping的发送时间
+var ping_time: float
 
 func _ready() -> void:
 	pass
@@ -33,6 +35,8 @@ func _on_create_game_server_button_button_down() -> void:
 		print("创建服务器成功")
 	# 删除延迟标签(服务器不需要延迟检测)
 	network_latency_label.queue_free()
+	# 删除延迟检测定时器
+	network_latency_timer.queue_free()
 	# 取消按钮的焦点
 	create_game_server_button.focus_mode=Control.FOCUS_NONE
 	join_game_server_button.focus_mode=Control.FOCUS_NONE
@@ -82,3 +86,24 @@ func _on_join_game_server_button_button_down() -> void:
 	# 取消按钮的焦点
 	create_game_server_button.focus_mode=Control.FOCUS_NONE
 	join_game_server_button.focus_mode=Control.FOCUS_NONE
+	# 开启延迟检测定时器
+	network_latency_timer.start()
+	
+
+# 获取实时延迟
+func _on_network_latency_timer_timeout() -> void:
+	ping_time = Time.get_unix_time_from_system()
+	ping.rpc_id(1)
+	
+# 用于发送ping给服务器 服务器接收到后会调用客户端的pong方法
+@rpc("any_peer","call_remote")	
+func ping():
+	var sender_id = multiplayer.get_remote_sender_id()
+	pong.rpc_id(sender_id)
+# 只能服务器调用 服务器本地不执行 只会在对应的客户端执行
+@rpc("authority","call_remote")
+func pong()->void:
+	#ceil向上取整
+	var latency = ceil((Time.get_unix_time_from_system() - ping_time)/1000)
+	network_latency_label.text = str(latency,"ms")
+	

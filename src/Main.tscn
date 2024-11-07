@@ -68,5 +68,8 @@ volume_db = -5.0
 autoplay = true
 parameters/looping = true
 
+[node name="NetworkLatencyTimer" type="Timer" parent="."]
+
 [connection signal="button_down" from="UI/Control/CreateGameServerButton" to="." method="_on_create_game_server_button_button_down"]
 [connection signal="button_down" from="UI/Control/JoinGameServerButton" to="." method="_on_join_game_server_button_button_down"]
+[connection signal="timeout" from="NetworkLatencyTimer" to="." method="_on_network_latency_timer_timeout"]
