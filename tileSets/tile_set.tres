@@ -134,8 +134,11 @@ texture = ExtResource("1_0apgd")
 11:10/0 = 0
 3:0/size_in_atlas = Vector2i(1, 2)
 3:0/0 = 0
+3:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -14.75, 3.875, -14.375, 5.875, -4.125, 6.75, 10.75, 2.875, 14.625, -2.625, 14.125, -8, 8)
 4:0/size_in_atlas = Vector2i(1, 2)
 4:0/0 = 0
+4:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-4, -14.75, 3.875, -14.375, 5.875, -4.125, 6.75, 10.75, 2.875, 14.625, -2.625, 14.125, -8, 8)
 
 [resource]
+physics_layer_0/collision_layer = 1
 sources/2 = SubResource("TileSetAtlasSource_nqf03")
