@@ -39,6 +39,8 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 	if area.is_in_group("bullet"):
 		var bullet:Sprite2D = area.get_parent().get_parent()
 		health-=bullet.BasicDamage
+		# 子弹击中敌人之后消失 无法穿透敌人
+		bullet.queue_free()
 		print("当前血量:",health)
 		if health<=0:
 			queue_free()
