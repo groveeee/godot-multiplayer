@@ -1,6 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://cl31ji2q4cs0p"]
+[gd_scene load_steps=5 format=3 uid="uid://cl31ji2q4cs0p"]
 
 [ext_resource type="Script" path="res://src/players/player.gd" id="1_ee3sk"]
+[ext_resource type="Texture2D" uid="uid://305ieng41y5t" path="res://assest/kenney_tiny-battle/Tiles/tile_0124.png" id="2_bcrig"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xif6t"]
+size = Vector2(14, 15)
 
 [sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_b3gvm"]
 properties/0/path = NodePath(".:position")
@@ -13,8 +17,16 @@ properties/2/path = NodePath(".:texture_repeat")
 properties/2/spawn = true
 properties/2/replication_mode = 1
 
-[node name="Player" type="Sprite2D"]
+[node name="Player" type="CharacterBody2D"]
+motion_mode = 1
 script = ExtResource("1_ee3sk")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_bcrig")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0.5)
+shape = SubResource("RectangleShape2D_xif6t")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 zoom = Vector2(1.5, 1.5)

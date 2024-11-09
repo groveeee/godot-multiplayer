@@ -1,4 +1,4 @@
-extends Sprite2D
+extends CharacterBody2D
 
 # 蓝色小人
 const TILE_0142 = preload("res://assest/kenney_tiny-battle/Tiles/tile_0142.png")
@@ -11,6 +11,9 @@ const BULLET_ONE: PackedScene = preload("res://src/bullets/fire_bullet/bullet_1.
 const MOVE_SPEED: int = 100
 # 玩家相机
 @onready var camera: Camera2D = $Camera2D
+# 玩家精灵
+@onready var sprite_2d: Sprite2D = $Sprite2D
+
 
 # 需要移动到的目标位置(一般是指鼠标位置)
 var target_pos: Vector2 = Vector2.ZERO
@@ -45,10 +48,10 @@ func _ready() -> void:
 
 	# 服务器是红色小人
 	if name == "1":
-		texture = TILE_0160
+		sprite_2d.texture = TILE_0160
 	else:
-		texture = TILE_0142
-	print(texture.resource_name)
+		sprite_2d.texture = TILE_0142
+	print(sprite_2d.texture.resource_name)
 	# texture = TILE_0142
 	# 随机设置玩家初始位置
 	position = Vector2(randf_range(0, 800), randf_range(0, 600))
@@ -76,7 +79,7 @@ func _input(event: InputEvent) -> void:
 		camera.offset.y=0
 
 	
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	# 如果不是该节点的控制者 不做任何处理
 	# 根据设置的节点的权限id 与 本身的唯一id作对比
 	if not is_multiplayer_authority():
@@ -92,15 +95,15 @@ func _process(delta: float) -> void:
 			Input.set_mouse_mode(Input.MouseMode.MOUSE_MODE_CONFINED)
 	# 如果有目标位置就移动到目标位置
 	if target_pos != Vector2.ZERO:
-		move_towards_target(delta)
+		move_towards_target()
 	# 到达目的地(两个向量之间的距离小于1就算他到达了 过于追求精准会导致玩家抖动)
-	if position.distance_to(target_pos)<1:
+	if position.distance_to(target_pos)<2:
 		target_pos = Vector2.ZERO
 	# 未锁定视角时 且鼠标在游戏窗口内 判断相机移动
 	if not is_camera_locked and Input.get_mouse_mode() == Input.MouseMode.MOUSE_MODE_CONFINED:
 		change_camera()
 	# 按下空格 回到玩家视角
-	if Input.is_action_pressed("sapce"):
+	if Input.is_action_pressed("space"):
 		camera.offset.x=0
 		camera.offset.y=0
 
@@ -130,9 +133,10 @@ func get_direction() -> Vector2:
 
 
 # 移动到目标位置
-func move_towards_target(delta: float):
+func move_towards_target():
 	var direction = (target_pos - position).normalized()
-	position += direction * MOVE_SPEED * delta
+	velocity = direction * MOVE_SPEED
+	move_and_slide()
 
 
 # 移动相机
